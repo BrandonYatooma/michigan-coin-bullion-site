@@ -13,6 +13,20 @@
 const crypto = require('crypto');
 const { getStore } = require('@netlify/blobs');
 
+const SITE_ID = process.env.NETLIFY_BLOBS_SITE_ID || '385de348-fc5d-46ea-a810-b0b229dc51fa';
+
+function getArticleStore() {
+  const token = process.env.NETLIFY_BLOBS_TOKEN;
+  if (!token) {
+    const err = new Error(
+      'NETLIFY_BLOBS_TOKEN is not set. Add it in Site settings -> Environment variables.'
+    );
+    err.name = 'MissingBlobsTokenError';
+    throw err;
+  }
+  return getStore({ name: 'rankcharge-articles', siteID: SITE_ID, token });
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -64,7 +78,7 @@ exports.handler = async (event) => {
   };
 
   try {
-    const store = getStore('rankcharge-articles');
+    const store = getArticleStore();
     await store.setJSON(slug, record);
 
     let index = [];
