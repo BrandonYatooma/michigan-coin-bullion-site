@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="rc-title">Article | Michigan Coin & Bullion Blog</title>
+<meta id="rc-desc" name="description" content="Michigan Coin & Bullion blog article.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18203632164">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18203632164');
+</script>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="assets/logo-icon.png" alt="Michigan Coin & Bullion" width="46" height="45">
+      <span class="brand-text"><strong>Michigan Coin &amp; Bullion</strong><span>Bloomfield Hills, MI</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="main-nav">
+      <a href="/">Home</a>
+      <a href="/prices.html">Live Prices</a>
+      <a href="/about.html">About</a>
+      <a href="/faq.html">What We Buy / FAQ</a>
+      <a href="/blog.html" aria-current="page">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <div class="header-cta">
+      <a class="phone-pill" href="tel:+12487204092"><span aria-hidden="true">☎</span><span class="label">(248) 720-4092</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="container" style="max-width:760px;">
+      <a class="post-back" href="/blog.html">&larr; Back to Blog</a>
+      <p class="post-meta" id="rc-meta">Loading&hellip;</p>
+      <h1 id="rc-heading">Loading article&hellip;</h1>
+    </div>
+  </section>
+
+  <section>
+    <div class="container prose" id="rc-content" style="max-width:760px;">
+      <p>Loading&hellip;</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container" style="max-width:640px;">
+      <h2>Have Something to Sell?</h2>
+      <p>Check our live pricing, then call or stop in for a free, no-obligation evaluation.</p>
+      <div class="btn-row" style="justify-content:center;">
+        <a class="btn btn-primary" href="tel:+12487204092">Call (248) 720-4092</a>
+        <a class="btn btn-outline" href="/prices.html">See Live Prices</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-logo-chip"><img src="assets/logo-full.png" alt="Michigan Coin & Bullion" height="34"></div>
+      <p style="max-width:34ch;">Buying gold, silver, rare coins, and jewelry across the Metro Detroit area.</p>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <a href="/">Home</a>
+      <a href="/prices.html">Live Prices</a>
+      <a href="/about.html">About</a>
+      <a href="/faq.html">What We Buy / FAQ</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <a href="tel:+12487204092">(248) 720-4092</a>
+      <a href="/contact.html">10 W Square Lake Rd, Suite 304<br>Bloomfield Hills, MI 48302</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>&copy; 2026 Michigan Coin &amp; Bullion</span>
+    <span>Bloomfield Hills, Michigan</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var slug = params.get('slug');
+    var contentEl = document.getElementById('rc-content');
+    var headingEl = document.getElementById('rc-heading');
+    var metaEl = document.getElementById('rc-meta');
+
+    if (!slug) {
+      headingEl.textContent = 'Article not found';
+      metaEl.textContent = '';
+      contentEl.innerHTML = '<p>No article was specified. <a href="/blog.html">Return to the blog</a>.</p>';
+      return;
+    }
+
+    fetch('/.netlify/functions/get-rankcharge-article?slug=' + encodeURIComponent(slug))
+      .then(function (r) {
+        if (!r.ok) throw new Error('not found');
+        return r.json();
+      })
+      .then(function (article) {
+        document.title = article.title + ' | Michigan Coin & Bullion Blog';
+        document.getElementById('rc-desc').setAttribute('content', article.excerpt || article.title);
+        headingEl.textContent = article.title;
+        var d = article.publishedAt ? new Date(article.publishedAt) : null;
+        metaEl.textContent = d ? d.toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : '';
+        // Content comes from our own signed, verified RankCharge webhook — trusted source.
+        contentEl.innerHTML = article.content || '<p>' + (article.excerpt || '') + '</p>';
+      })
+      .catch(function () {
+        headingEl.textContent = 'Article not found';
+        metaEl.textContent = '';
+        contentEl.innerHTML = '<p>We couldn\'t find that article. <a href="/blog.html">Return to the blog</a>.</p>';
+      });
+  })();
+</script>
+</body>
+</html>
