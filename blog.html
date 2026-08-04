@@ -1,36 +1,173 @@
-// netlify/functions/list-rankcharge-articles.js
-//
-// Returns every article received via the RankCharge webhook, newest first.
-// Called client-side from blog.html to render them alongside the
-// hand-written posts.
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog | Selling Gold, Silver & Coins — Michigan Coin & Bullion</title>
+<meta name="description" content="Guides on spot price, junk silver, coin collections, and getting the most for your gold and silver from Michigan Coin & Bullion in Bloomfield Hills, MI.">
+<link rel="canonical" href="https://www.michigancoinbullion.com/blog.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Michigan Coin & Bullion">
+<meta property="og:title" content="Blog | Michigan Coin & Bullion">
+<meta property="og:description" content="Guides on spot price, junk silver, coin collections, and getting the most for your gold and silver.">
+<meta property="og:url" content="https://www.michigancoinbullion.com/blog.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18203632164">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18203632164');
+</script>
+</head>
 
-const { getArticleStore } = require('./_blobs-helper');
+<body>
 
-exports.handler = async () => {
-  try {
-    const store = getArticleStore();
-    const index = (await store.get('_index', { type: 'json' })) || [];
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="assets/logo-icon.png" alt="Michigan Coin & Bullion" width="46" height="45">
+      <span class="brand-text"><strong>Michigan Coin &amp; Bullion</strong><span>Bloomfield Hills, MI</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="main-nav">
+      <a href="/">Home</a>
+      <a href="/prices.html">Live Prices</a>
+      <a href="/about.html">About</a>
+      <a href="/faq.html">What We Buy / FAQ</a>
+      <a href="/blog.html" aria-current="page">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <div class="header-cta">
+      <a class="phone-pill" href="tel:+12487204092"><span aria-hidden="true">☎</span><span class="label">(248) 720-4092</span></a>
+    </div>
+  </div>
+</header>
 
-    const articles = [];
-    for (const slug of index) {
-      const rec = await store.get(slug, { type: 'json' });
-      if (rec) articles.push(rec);
-    }
 
-    return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=60'
-      },
-      body: JSON.stringify(articles)
-    };
-  } catch (e) {
-    console.error('Error listing articles:', e);
-    return {
-      statusCode: 200, // fail soft — an empty list just means no dynamic posts show yet
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify([])
-    };
-  }
-};
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Blog</p>
+      <h1>Guides for Sellers &amp; Collectors</h1>
+      <p>Plain-language guides on spot price, junk silver, inherited collections, and getting a fair number for what you're selling.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="blog-grid" id="blog-grid">
+
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-coins-to-look-for.html">Coins to Look For: Rare Dates, Silver Coins &amp; What's Actually Worth Checking</a></h2>
+          <p>Which pennies are worth more than face value, why any dime, quarter, or half dollar from 1964 or earlier is silver, and other older coins worth a second look.</p>
+          <a class="blog-read" href="/blog-coins-to-look-for.html">Read the guide &rarr;</a>
+        </div>
+
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-selling-gold-jewelry.html">Why Sell Your Gold Jewelry to Michigan Coin & Bullion?</a></h2>
+          <p>We pay more than the competition for gold jewelry, 10K through 24K, with live pricing you can check before you walk in and no appointment necessary.</p>
+          <a class="blog-read" href="/blog-selling-gold-jewelry.html">Read the guide &rarr;</a>
+        </div>
+
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-spot-price-explained.html">What Is Spot Price, and Why Isn't It What You're Paid?</a></h2>
+          <p>Spot price is the number you see everywhere, but it's rarely the number you're handed at the counter. Here's the real relationship between spot and your payout.</p>
+          <a class="blog-read" href="/blog-spot-price-explained.html">Read the guide &rarr;</a>
+        </div>
+
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-inherited-coin-collection.html">How to Get the Most for a Coin Collection You Inherited</a></h2>
+          <p>Inheriting a collection is equal parts exciting and overwhelming. A simple process for sorting, protecting, and valuing what you've been left.</p>
+          <a class="blog-read" href="/blog-inherited-coin-collection.html">Read the guide &rarr;</a>
+        </div>
+
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-junk-silver-explained.html">What Is "Junk Silver"? A Quick Guide to 90% Silver Coins</a></h2>
+          <p>Despite the name, there's nothing junky about it. Here's what pre-1965 silver coins are worth and why dealers price them by face value.</p>
+          <a class="blog-read" href="/blog-junk-silver-explained.html">Read the guide &rarr;</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container" style="max-width:640px;">
+      <h2>Have Something to Sell?</h2>
+      <p>Check our live pricing, then call or stop in for a free, no-obligation evaluation.</p>
+      <div class="btn-row" style="justify-content:center;">
+        <a class="btn btn-primary" href="tel:+12487204092">Call (248) 720-4092</a>
+        <a class="btn btn-outline" href="/prices.html">See Live Prices</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-logo-chip"><img src="assets/logo-full.png" alt="Michigan Coin & Bullion" height="34"></div>
+      <p style="max-width:34ch;">Buying gold, silver, rare coins, and jewelry across the Metro Detroit area.</p>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <a href="/">Home</a>
+      <a href="/prices.html">Live Prices</a>
+      <a href="/about.html">About</a>
+      <a href="/faq.html">What We Buy / FAQ</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <a href="tel:+12487204092">(248) 720-4092</a>
+      <a href="/contact.html">10 W Square Lake Rd, Suite 304<br>Bloomfield Hills, MI 48302</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>&copy; 2026 Michigan Coin &amp; Bullion</span>
+    <span>Bloomfield Hills, Michigan</span>
+  </div>
+</footer>
+
+
+<script src="script.js"></script>
+<script>
+  // Append any articles published via the RankCharge webhook, newest first,
+  // above the hand-written posts below them (they're already newest-first
+  // in the markup, so we insert dynamic cards at the very top of the grid).
+  fetch('/.netlify/functions/list-rankcharge-articles')
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (articles) {
+      if (!articles || !articles.length) return;
+      var grid = document.getElementById('blog-grid');
+      articles.forEach(function (a) {
+        var card = document.createElement('div');
+        card.className = 'blog-card';
+        var d = a.publishedAt ? new Date(a.publishedAt) : null;
+        var dateLabel = d ? d.toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : '';
+        var href = '/rc-article.html?slug=' + encodeURIComponent(a.slug);
+        card.innerHTML =
+          '<span class="blog-date">' + dateLabel + '</span>' +
+          '<h2><a href="' + href + '">' + a.title + '</a></h2>' +
+          '<p>' + (a.excerpt || '') + '</p>' +
+          '<a class="blog-read" href="' + href + '">Read the guide &rarr;</a>';
+        grid.insertBefore(card, grid.firstChild);
+      });
+    })
+    .catch(function () { /* fail soft — static posts still show fine */ });
+</script>
+</body>
+</html>
