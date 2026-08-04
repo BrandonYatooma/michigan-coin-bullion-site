@@ -78,7 +78,15 @@ exports.handler = async (event) => {
     await store.setJSON('_index', index);
   } catch (e) {
     console.error('Blob storage error:', e);
-    return { statusCode: 500, body: 'Failed to store article' };
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        error: 'Failed to store article',
+        detail: e && e.message ? e.message : String(e),
+        name: e && e.name ? e.name : null
+      })
+    };
   }
 
   return {
