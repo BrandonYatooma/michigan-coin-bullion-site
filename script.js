@@ -55,7 +55,7 @@ var PRICE_ITEMS = [
   { id:'silver-eagle',  name:'Silver Eagle',             metal:'XAG', group:'Bullion (Live Spot)',
     buyMode:'spot_adj', buyVal:-3,  sellMode:'spot_adj', sellVal:4 },
   { id:'gold-eagle',    name:'Gold Eagle',               metal:'XAU', group:'Bullion (Live Spot)',
-    buyMode:'spot_pct', buyVal:-4,  sellMode:'spot_pct', sellVal:2.5 },
+    buyMode:'spot_pct', buyVal:-2,  sellMode:'spot_pct', sellVal:2.5 },
 
   { id:'karat-gold',    name:'Karat Gold (scrap/jewelry)', metal:'XAU', group:'Coins & Currency (Reference)',
     buyMode:'purity_pct', buyVal:88, sellMode:'text', sellVal:'—',
