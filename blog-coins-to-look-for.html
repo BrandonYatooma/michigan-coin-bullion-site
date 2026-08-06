@@ -1,120 +1,148 @@
-// netlify/functions/rankcharge-webhook.js
-//
-// Receives an article POSTed by RankCharge, verifies the HMAC-SHA256
-// signature against RANKCHARGE_SIGNING_SECRET (set in Netlify's
-// Environment Variables — never hardcode it here), then stores the
-// article in Netlify Blobs so the site can list and render it.
-//
-// Expected inbound JSON shape (adjust field names if RankCharge's actual
-// payload differs — check their docs/a real test payload and update the
-// `article.xxx` lines below to match):
-//   { title, slug, excerpt, content, publishedAt }
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog | Selling Gold, Silver & Coins — Michigan Coin & Bullion</title>
+<meta name="description" content="Guides on spot price, junk silver, coin collections, and getting the most for your gold and silver from Michigan Coin & Bullion in Bloomfield Hills, MI.">
+<link rel="canonical" href="https://www.michigancoinbullion.com/blog.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Michigan Coin & Bullion">
+<meta property="og:title" content="Blog | Michigan Coin & Bullion">
+<meta property="og:description" content="Guides on spot price, junk silver, coin collections, and getting the most for your gold and silver.">
+<meta property="og:url" content="https://www.michigancoinbullion.com/blog.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18203632164">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18203632164');
+</script>
+</head>
 
-const crypto = require('crypto');
-const { getStore } = require('@netlify/blobs');
+<body>
 
-const SITE_ID = process.env.NETLIFY_BLOBS_SITE_ID || '385de348-fc5d-46ea-a810-b0b229dc51fa';
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="assets/logo-icon.png" alt="Michigan Coin & Bullion" width="46" height="45">
+      <span class="brand-text"><strong>Michigan Coin &amp; Bullion</strong><span>Bloomfield Hills, MI</span></span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="main-nav">
+      <a href="/">Home</a>
+      <a href="/prices.html">Live Prices</a>
+      <a href="/about.html">About</a>
+      <a href="/faq.html">What We Buy / FAQ</a>
+      <a href="/blog.html" aria-current="page">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <div class="header-cta">
+      <a class="phone-pill" href="tel:+12487204092"><span aria-hidden="true">☎</span><span class="label">(248) 720-4092</span></a>
+    </div>
+  </div>
+</header>
 
-function getArticleStore() {
-  const token = process.env.NETLIFY_BLOBS_TOKEN;
-  if (!token) {
-    const err = new Error(
-      'NETLIFY_BLOBS_TOKEN is not set. Add it in Site settings -> Environment variables.'
-    );
-    err.name = 'MissingBlobsTokenError';
-    throw err;
-  }
-  return getStore({ name: 'rankcharge-articles', siteID: SITE_ID, token });
-}
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Blog</p>
+      <h1>Guides for Sellers &amp; Collectors</h1>
+      <p>Plain-language guides on spot price, junk silver, inherited collections, and getting a fair number for what you're selling.</p>
+    </div>
+  </section>
 
-  const secret = process.env.RANKCHARGE_SIGNING_SECRET;
-  if (!secret) {
-    console.error('RANKCHARGE_SIGNING_SECRET is not set in environment variables');
-    return { statusCode: 500, body: 'Server not configured' };
-  }
+  <section>
+    <div class="container">
+      <div class="blog-grid" id="blog-grid">
 
-  const signature =
-    event.headers['x-rankcharge-signature'] ||
-    event.headers['X-RankCharge-Signature'];
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-coins-to-look-for.html">Coins to Look For: Rare Dates, Silver Coins &amp; What's Actually Worth Checking</a></h2>
+          <p>Which pennies are worth more than face value, why any dime, quarter, or half dollar from 1964 or earlier is silver, and other older coins worth a second look.</p>
+          <a class="blog-read" href="/blog-coins-to-look-for.html">Read the guide &rarr;</a>
+        </div>
 
-  if (!signature) {
-    return { statusCode: 401, body: 'Missing X-RankCharge-Signature header' };
-  }
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-selling-gold-jewelry.html">Why Sell Your Gold Jewelry to Michigan Coin & Bullion?</a></h2>
+          <p>We pay more than the competition for gold jewelry, 10K through 24K, with live pricing you can check before you walk in and no appointment necessary.</p>
+          <a class="blog-read" href="/blog-selling-gold-jewelry.html">Read the guide &rarr;</a>
+        </div>
 
-  const rawBody = event.isBase64Encoded
-    ? Buffer.from(event.body, 'base64').toString('utf8')
-    : (event.body || '');
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-spot-price-explained.html">What Is Spot Price, and Why Isn't It What You're Paid?</a></h2>
+          <p>Spot price is the number you see everywhere, but it's rarely the number you're handed at the counter. Here's the real relationship between spot and your payout.</p>
+          <a class="blog-read" href="/blog-spot-price-explained.html">Read the guide &rarr;</a>
+        </div>
 
-  const expected = crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-inherited-coin-collection.html">How to Get the Most for a Coin Collection You Inherited</a></h2>
+          <p>Inheriting a collection is equal parts exciting and overwhelming. A simple process for sorting, protecting, and valuing what you've been left.</p>
+          <a class="blog-read" href="/blog-inherited-coin-collection.html">Read the guide &rarr;</a>
+        </div>
 
-  const sigBuf = Buffer.from(signature, 'utf8');
-  const expBuf = Buffer.from(expected, 'utf8');
-  const valid = sigBuf.length === expBuf.length && crypto.timingSafeEqual(sigBuf, expBuf);
+        <div class="blog-card">
+          <span class="blog-date">July 2026</span>
+          <h2><a href="/blog-junk-silver-explained.html">What Is "Junk Silver"? A Quick Guide to 90% Silver Coins</a></h2>
+          <p>Despite the name, there's nothing junky about it. Here's what pre-1965 silver coins are worth and why dealers price them by face value.</p>
+          <a class="blog-read" href="/blog-junk-silver-explained.html">Read the guide &rarr;</a>
+        </div>
 
-  if (!valid) {
-    return { statusCode: 401, body: 'Invalid signature' };
-  }
+      </div>
+    </div>
+  </section>
 
-  let article;
-  try {
-    article = JSON.parse(rawBody);
-  } catch (e) {
-    return { statusCode: 400, body: 'Body was not valid JSON' };
-  }
+  <section class="cta-band">
+    <div class="container" style="max-width:640px;">
+      <h2>Have Something to Sell?</h2>
+      <p>Check our live pricing, then call or stop in for a free, no-obligation evaluation.</p>
+      <div class="btn-row" style="justify-content:center;">
+        <a class="btn btn-primary" href="tel:+12487204092">Call (248) 720-4092</a>
+        <a class="btn btn-outline" href="/prices.html">See Live Prices</a>
+      </div>
+    </div>
+  </section>
+</main>
 
-  const slug = slugify(article.slug || article.title || ('article-' + Date.now()));
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-logo-chip"><img src="assets/logo-full.png" alt="Michigan Coin & Bullion" height="34"></div>
+      <p style="max-width:34ch;">Buying gold, silver, rare coins, and jewelry across the Metro Detroit area.</p>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <a href="/">Home</a>
+      <a href="/prices.html">Live Prices</a>
+      <a href="/about.html">About</a>
+      <a href="/faq.html">What We Buy / FAQ</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <a href="tel:+12487204092">(248) 720-4092</a>
+      <a href="/contact.html">10 W Square Lake Rd, Suite 304<br>Bloomfield Hills, MI 48302</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>&copy; 2026 Michigan Coin &amp; Bullion</span>
+    <span>Bloomfield Hills, Michigan</span>
+  </div>
+</footer>
 
-  const record = {
-    title: article.title || 'Untitled',
-    slug,
-    excerpt: article.excerpt || article.description || '',
-    content: article.content || article.html || article.body || '',
-    publishedAt: article.publishedAt || article.date || new Date().toISOString()
-  };
 
-  try {
-    const store = getArticleStore();
-    await store.setJSON(slug, record);
-
-    let index = [];
-    try {
-      index = (await store.get('_index', { type: 'json' })) || [];
-    } catch (e) {
-      index = [];
-    }
-    index = index.filter((s) => s !== slug);
-    index.unshift(slug);
-    await store.setJSON('_index', index);
-  } catch (e) {
-    console.error('Blob storage error:', e);
-    return {
-      statusCode: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        error: 'Failed to store article',
-        detail: e && e.message ? e.message : String(e),
-        name: e && e.name ? e.name : null
-      })
-    };
-  }
-
-  return {
-    statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ok: true, slug })
-  };
-};
-
-function slugify(str) {
-  return String(str)
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-    .slice(0, 80);
-}
+<script src="script.js"></script>
+</body>
+</html>
