@@ -1,36 +1,36 @@
-// netlify/functions/list-rankcharge-articles.js
+// netlify/functions/_blobs-helper.js
 //
-// Returns every article received via the RankCharge webhook, newest first.
-// Called client-side from blog.html to render them alongside the
-// hand-written posts.
+// Netlify's automatic Blobs environment detection has known reliability
+// issues in production for some sites (see netlify/blobs GitHub issues
+// and the Netlify support forums). To avoid depending on it, we pass the
+// site ID and an access token explicitly instead.
+//
+// Required setup in Netlify (Site settings -> Environment variables):
+//   NETLIFY_BLOBS_TOKEN = a Personal Access Token
+//     (created at: Netlify avatar menu -> User settings -> Applications
+//      -> Personal access tokens -> New access token)
+//
+// The site ID below is not secret (it's visible in your site's URL/API
+// responses), so it's safe to leave hardcoded here.
 
 const { getStore } = require('@netlify/blobs');
 
-exports.handler = async () => {
-  try {
-    const store = getStore('rankcharge-articles');
-    const index = (await store.get('_index', { type: 'json' })) || [];
+const SITE_ID = process.env.NETLIFY_BLOBS_SITE_ID || '385de348-fc5d-46ea-a810-b0b229dc51fa';
 
-    const articles = [];
-    for (const slug of index) {
-      const rec = await store.get(slug, { type: 'json' });
-      if (rec) articles.push(rec);
-    }
-
-    return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=60'
-      },
-      body: JSON.stringify(articles)
-    };
-  } catch (e) {
-    console.error('Error listing articles:', e);
-    return {
-      statusCode: 200, // fail soft — an empty list just means no dynamic posts show yet
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify([])
-    };
+function getArticleStore() {
+  const token = process.env.NETLIFY_BLOBS_TOKEN;
+  if (!token) {
+    const err = new Error(
+      'NETLIFY_BLOBS_TOKEN is not set. Add it in Site settings -> Environment variables.'
+    );
+    err.name = 'MissingBlobsTokenError';
+    throw err;
   }
-};
+  return getStore({
+    name: 'rankcharge-articles',
+    siteID: SITE_ID,
+    token
+  });
+}
+
+module.exports = { getArticleStore };
