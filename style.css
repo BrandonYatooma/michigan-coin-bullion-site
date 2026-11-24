@@ -119,6 +119,13 @@ p{margin:0 0 1em;}
 .phone-pill:hover{border-color:var(--gold);color:var(--gold-text);}
 .nav-toggle{display:none;background:none;border:0;color:var(--ink);}
 
+@media (max-width: 1180px) and (min-width: 881px){
+  .main-nav{gap:20px;}
+  .main-nav a{white-space:nowrap;font-size:.86rem;}
+  .brand-text strong{white-space:nowrap;}
+  .header-cta .phone-pill{padding:9px 12px;}
+  .header-cta .phone-pill span.label{display:none;}
+}
 @media (max-width: 880px){
   .main-nav{
     position:absolute;top:86px;left:0;right:0;background:#fffefb;
@@ -126,7 +133,7 @@ p{margin:0 0 1em;}
     border-bottom:1px solid var(--paper-line);
     max-height:0;overflow:hidden;transition:max-height .3s ease;
   }
-  .main-nav.open{max-height:340px;}
+  .main-nav.open{max-height:480px;}
   .main-nav a{width:100%;padding:16px 28px;border-top:1px solid var(--paper-line);}
   .nav-toggle{display:block;}
   .header-cta .phone-pill span.label{display:none;}
@@ -381,3 +388,16 @@ footer.site-footer{background:var(--ink);color:#8fa0bd;padding:56px 0 30px;}
   color:var(--gold-text);border-bottom:1px solid var(--gold-dim);
 }
 .post-back:hover{border-color:var(--gold);}
+
+/* -------------------------------------------------- shop (Shopify collection embed) */
+.shop-section{padding:64px 0 88px;}
+.shop-embed{min-height:220px;}
+.shop-placeholder{
+  text-align:center;max-width:560px;margin:0 auto;padding:48px 28px;
+  border:1px solid var(--paper-line);background:var(--parchment-2);border-radius:var(--radius);
+}
+.shop-placeholder .eyebrow{justify-content:center;}
+.shop-placeholder h2{font-size:1.5rem;}
+.shop-placeholder p{color:#3c4a63;}
+.shop-info{padding:56px 0;}
+.shop-info .contact-card p:last-child{margin-bottom:0;color:#3c4a63;font-size:.95rem;}
